@@ -26,8 +26,11 @@ class CgminerAPI(object):
             sock.send(json.dumps(payload))
             received = self._receive(sock)
         finally:
-            sock.shutdown(socket.SHUT_RDWR)
-            sock.close()
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+                sock.close()
+            except:
+                print 'Socket Shutdown error'
 
         return json.loads(received[:-1])
 
